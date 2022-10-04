@@ -69,6 +69,11 @@ function addRow(id) {
 
 
 function deleteRow(event) {
+    /* the delete button we click will have a value of the id of the item 
+    (since in initializing and adding functions i set them that way), so with value we can find a member of 
+    form data with the same idea and set local storage with new form data that has removed the item with that id
+
+    */
     for (let i=0; i<formDataArray.length; i++) {
         if (formDataArray[i].id == event.target.value) {
             console.log("target value");
@@ -76,9 +81,10 @@ function deleteRow(event) {
             console.log("data id");
             console.log(formDataArray[i].id);
             formDataArray.splice(i, 1);
-            localStorage.clear();
-            document.location.reload();
+            //localStorage.clear();
             localStorage.setItem("data", JSON.stringify(formDataArray));
+            document.location.reload();
+            //localStorage.setItem("data", JSON.stringify(formDataArray));
             console.log(formDataArray);
         }
     }
@@ -153,7 +159,7 @@ function handleSubmit(event) {
     if (!validation()) {
         event.preventDefault();
     } else {
-        event.preventDefault();
+        
         id++;
         console.log(JSON.parse(localStorage.getItem("data")));
         
@@ -166,6 +172,20 @@ function handleSubmit(event) {
             gender: x["gender"].value,
             notes: x["notes"].value
         })
+
+        localStorage.removeItem("firstName");
+        document.forms["myForm"]["firstName"].value = "";
+        localStorage.removeItem("lastName");
+        document.forms["myForm"]["lastName"].value = "";
+        localStorage.removeItem("adress");
+        document.forms["myForm"]["adress"].value = "";
+        localStorage.removeItem("date");
+        document.forms["myForm"]["date"].value = "";
+        localStorage.removeItem("gender");
+        document.forms["myForm"]["gender"].value = "";
+        localStorage.removeItem("notes");
+        document.forms["myForm"]["notes"].value = "";
+        
 
 
         localStorage.setItem("data", JSON.stringify(formDataArray));
