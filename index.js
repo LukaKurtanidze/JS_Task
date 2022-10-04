@@ -85,6 +85,40 @@ function deleteRow(event) {
 }
 
 
+
+
+
+window.onbeforeunload = () => {
+    localStorage.setItem("firstName", document.forms["myForm"]["firstName"].value);
+    localStorage.setItem("lastName", document.forms["myForm"]["lastName"].value);
+    localStorage.setItem("adress", document.forms["myForm"]["adress"].value);
+    localStorage.setItem("date", document.forms["myForm"]["date"].value);
+    localStorage.setItem("gender", document.forms["myForm"]["gender"].value);
+    localStorage.setItem("notes", document.forms["myForm"]["notes"].value);
+}
+window.onload = () => {
+        let firstName = localStorage.getItem("firstName");
+        if (firstName !== null) document.forms["myForm"]["firstName"].value = firstName;
+
+        let lastName = localStorage.getItem("lastName");
+        if (lastName !== null) document.forms["myForm"]["lastName"].value = lastName;
+    
+        let adress = localStorage.getItem("adress");
+        if (adress !== null) document.forms["myForm"]["adress"].value = adress;
+
+        let date = localStorage.getItem("date");
+        if (date !== null) document.forms["myForm"]["date"].value = date;
+
+        let gender = localStorage.getItem("gender");
+        if (gender !== null) document.forms["myForm"]["gender"].value = gender;
+
+        let notes = localStorage.getItem("notes");
+        if (notes !== null) document.forms["myForm"]["notes"].value = notes;
+
+}
+
+
+
 function validation() {
     let isValid = true;
     let x = formData;
