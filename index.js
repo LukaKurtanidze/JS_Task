@@ -1,11 +1,12 @@
-const formData = document.forms["myForm"];
-localStorage.clear();
-let formDataArray = JSON.parse(localStorage.getItem("data")) || [];
-let id = formDataArray.length || 0;
+const formData = document.forms["myForm"];   //this is where input is saved
+//localStorage.clear();
+let formDataArray = JSON.parse(localStorage.getItem("data")) || [];   // if data is in local storage, save it in this array
+let id = formDataArray.length || 0;     // set id to the maximum elemen in data saved in local storage (if it exist otherwise 0)
 let table = document.getElementById("table");
 
 
 function initialiseRows() {
+    // get data from formDataArray (which gets its data from local storage and create initial rows from it)
     for (let i=1; i<=formDataArray.length; i++) {
         let row = table.insertRow(i);
         var cell1 = row.insertCell(0);
@@ -37,6 +38,7 @@ function initialiseRows() {
 function addRow(id) {
     let row = table.insertRow(id);
 
+    // create row cells
     var cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
@@ -46,7 +48,9 @@ function addRow(id) {
     let cell7 = row.insertCell(6);
     let cell8 = row.insertCell(7);
 
-    
+    /* since after submitting input data is saved in local storage and therefore saved in formDataArray,
+        set content of the ceilings to the latest members of data of the local storage
+    */
     cell1.innerHTML = formDataArray[id-1].id;
     cell2.innerHTML = formDataArray[id-1].firstName;
     cell3.innerHTML = formDataArray[id-1].lastName;
@@ -63,16 +67,22 @@ function addRow(id) {
     cell8.addEventListener('click', (event)=>deleteRow(event));
 }
 
-/*
+
 function deleteRow(event) {
-    for (data of formDataArray) {
-        if (data.id === event.target.value) {
-            formDataArray.splice(data.id-1, 1);
+    for (let i=0; i<formDataArray.length; i++) {
+        if (formDataArray[i].id == event.target.value) {
+            console.log("target value");
+            console.log(event.target.value);
+            console.log("data id");
+            console.log(formDataArray[i].id);
+            formDataArray.splice(i, 1);
+            localStorage.clear();
             document.location.reload();
+            localStorage.setItem("data", JSON.stringify(formDataArray));
             console.log(formDataArray);
         }
     }
-}*/
+}
 
 
 function validation() {
