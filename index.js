@@ -3,7 +3,9 @@ const formData = document.forms["myForm"];   //this is where input is saved
 let formDataArray = JSON.parse(localStorage.getItem("data")) || [];   // if data is in local storage, save it in this array
 let id = formDataArray.length || 0;     // set id to the maximum elemen in data saved in local storage (if it exist otherwise 0)
 let table = document.getElementById("table");
-
+let popup = document.getElementById("popup");
+let overlay = document.getElementById("overlay");
+let xButton = document.getElementById("popup_close");
 
 function initialiseRows() {
     // get data from formDataArray (which gets its data from local storage and create initial rows from it)
@@ -30,6 +32,7 @@ function initialiseRows() {
         cell8.value = formDataArray[i-1].id;
         cell8.innerHTML = "DELETE";
 
+        cell7.addEventListener('click', (event)=>showPopup(event));
         cell8.addEventListener('click', (event)=>deleteRow(event));
     }
 }
@@ -63,7 +66,7 @@ function addRow(id) {
     cell8.value = formDataArray[id-1].id;
     cell8.innerHTML = "DELETE";
     
-
+    cell7.addEventListener('click', (event)=>showPopup(event));
     cell8.addEventListener('click', (event)=>deleteRow(event));
 }
 
@@ -90,9 +93,24 @@ function deleteRow(event) {
     }
 }
 
+function closePopup() {
+    console.log("it is clicked")
+    popup.classList.remove("active");
+    overlay.classList.remove("active");
+    document.location.reload();
+}
 
-
-
+function showPopup(event) {
+    let notes = document.getElementById("popup_notes");
+    popup.classList.add("active");
+    overlay.classList.add("active");
+    for (let i=0; i<formDataArray.length; i++) {
+        if (formDataArray[i].id == event.target.value) {
+            notes.innerHTML = formDataArray[i].notes || "empty note";
+        }
+    }
+    xButton.addEventListener('click', (event)=>closePopup(event));
+}
 
 window.onbeforeunload = () => {
     localStorage.setItem("firstName", document.forms["myForm"]["firstName"].value);
@@ -122,7 +140,6 @@ window.onload = () => {
         if (notes !== null) document.forms["myForm"]["notes"].value = notes;
 
 }
-
 
 
 function validation() {
@@ -159,7 +176,6 @@ function handleSubmit(event) {
     if (!validation()) {
         event.preventDefault();
     } else {
-        
         id++;
         console.log(JSON.parse(localStorage.getItem("data")));
         
