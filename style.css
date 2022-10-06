@@ -5,11 +5,11 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     z-index: 10;
-    border: 0.1em solid black;
-    border-radius: 0.5em;
+    border: 0.1rem solid black;
+    border-radius: 0.5rem;
     background-color: white;
-    width: 40%;
-    max-width: 40%;
+    width: 40vw;
+    max-width: 40vw;
 }
 #popup.active {
     transform: translate(-50%, -50%) scale(1);
@@ -18,7 +18,7 @@
 .popup_header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
 }
 
 
@@ -35,4 +35,11 @@
 #overlay.active {
     opacity: 1;
     pointer-events: all;
+}
+
+.container {
+    max-width: 60vw !important;
+}
+#table_container.container {
+    max-width: 80vw !important;
 }

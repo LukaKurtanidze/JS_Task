@@ -177,6 +177,7 @@ function handleSubmit(event) {
         event.preventDefault();
     } else {
         id++;
+        event.preventDefault();
         console.log(JSON.parse(localStorage.getItem("data")));
         
         formDataArray.push({
