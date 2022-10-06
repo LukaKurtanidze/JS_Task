@@ -7,6 +7,10 @@ let popup = document.getElementById("popup");
 let overlay = document.getElementById("overlay");
 let xButton = document.getElementById("popup_close");
 
+initialiseRows();
+formData.addEventListener('submit', (e) => handleSubmit(e));
+
+
 function initialiseRows() {
     // get data from formDataArray (which gets its data from local storage and create initial rows from it)
     for (let i=1; i<=formDataArray.length; i++) {
@@ -23,14 +27,15 @@ function initialiseRows() {
         cell1.innerHTML = formDataArray[i-1].id;
         cell2.innerHTML = formDataArray[i-1].firstName;
         cell3.innerHTML = formDataArray[i-1].lastName;
-        cell4.innerHTML = formDataArray[i-1].date;
-        cell5.innerHTML = formDataArray[i-1].adress;
+        cell4.innerHTML = formDataArray[i-1].adress;
+        cell5.innerHTML = formDataArray[i-1].date;
         cell6.innerHTML = formDataArray[i-1].gender;
-        
         cell7.value = formDataArray[i-1].id;
         cell7.innerHTML = "VIEW";
+        cell7.classList.add("view_button")
         cell8.value = formDataArray[i-1].id;
         cell8.innerHTML = "DELETE";
+        cell8.classList.add("delete_button");
 
         cell7.addEventListener('click', (event)=>showPopup(event));
         cell8.addEventListener('click', (event)=>deleteRow(event));
@@ -39,35 +44,38 @@ function initialiseRows() {
 
 
 function addRow(id) {
-    let row = table.insertRow(id);
+    window.onload = () => {
+        let row = table.insertRow(id);
 
-    // create row cells
-    var cell1 = row.insertCell(0);
-    let cell2 = row.insertCell(1);
-    let cell3 = row.insertCell(2);
-    let cell4 = row.insertCell(3);
-    let cell5 = row.insertCell(4);
-    let cell6 = row.insertCell(5);
-    let cell7 = row.insertCell(6);
-    let cell8 = row.insertCell(7);
+        // create row cells
+        var cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
+        let cell4 = row.insertCell(3);
+        let cell5 = row.insertCell(4);
+        let cell6 = row.insertCell(5);
+        let cell7 = row.insertCell(6);
+        let cell8 = row.insertCell(7);
 
-    /* since after submitting input data is saved in local storage and therefore saved in formDataArray,
-        set content of the ceilings to the latest members of data of the local storage
-    */
-    cell1.innerHTML = formDataArray[id-1].id;
-    cell2.innerHTML = formDataArray[id-1].firstName;
-    cell3.innerHTML = formDataArray[id-1].lastName;
-    cell4.innerHTML = formDataArray[id-1].date;
-    cell5.innerHTML = formDataArray[id-1].adress;
-    cell6.innerHTML = formDataArray[id-1].gender;
-    
-    cell7.value = formDataArray[id-1].id;
-    cell7.innerHTML = "VIEW";
-    cell8.value = formDataArray[id-1].id;
-    cell8.innerHTML = "DELETE";
-    
-    cell7.addEventListener('click', (event)=>showPopup(event));
-    cell8.addEventListener('click', (event)=>deleteRow(event));
+        /* since after submitting input data is saved in local storage and therefore saved in formDataArray,
+            set content of the ceilings to the latest members of data of the local storage
+        */
+        cell1.innerHTML = formDataArray[id-1].id;
+        cell2.innerHTML = formDataArray[id-1].firstName;
+        cell3.innerHTML = formDataArray[id-1].lastName;
+        cell4.innerHTML = formDataArray[id-1].adress;
+        cell5.innerHTML = formDataArray[id-1].date;
+        cell6.innerHTML = formDataArray[id-1].gender;
+        cell7.value = formDataArray[id-1].id;
+        cell7.innerHTML = "VIEW";
+        cell7.classList.add("view_button");
+        cell8.value = formDataArray[id-1].id;
+        cell8.innerHTML = "DELETE";
+        cell8.classList.add("delete_button");
+        
+        cell7.addEventListener('click', (event)=>showPopup(event));
+        cell8.addEventListener('click', (event)=>deleteRow(event));
+    }
 }
 
 
@@ -79,29 +87,46 @@ function deleteRow(event) {
     */
     for (let i=0; i<formDataArray.length; i++) {
         if (formDataArray[i].id == event.target.value) {
-            console.log("target value");
-            console.log(event.target.value);
-            console.log("data id");
-            console.log(formDataArray[i].id);
             formDataArray.splice(i, 1);
-            //localStorage.clear();
+            for (let j=i; j<formDataArray.length; j++) {
+                formDataArray[j].id = formDataArray[j].id - 1;
+            } 
             localStorage.setItem("data", JSON.stringify(formDataArray));
             document.location.reload();
-            //localStorage.setItem("data", JSON.stringify(formDataArray));
-            console.log(formDataArray);
         }
     }
 }
+
 
 function closePopup() {
     console.log("it is clicked")
     popup.classList.remove("active");
     overlay.classList.remove("active");
-    document.location.reload();
-}
+    //document.location.reload(); 
+} 
+
 
 function showPopup(event) {
-    let notes = document.getElementById("popup_notes");
+
+    /*
+    const myModal = new bootstrap.Modal('#myModal', {
+        keyboard: false
+    })
+    const modalToggle = document.getElementById('toggleMyModal');
+    myModal.show(modalToggle)
+
+
+    let notes = document.getElementById("modal_note");
+
+    for (let i=0; i<formDataArray.length; i++) {
+        if (formDataArray[i].id == event.target.value) {
+            notes.innerHTML = formDataArray[i].notes || "empty note";
+        }
+    }
+    */
+
+
+    let notes = document.getElementById("popup_note");    
     popup.classList.add("active");
     overlay.classList.add("active");
     for (let i=0; i<formDataArray.length; i++) {
@@ -110,6 +135,7 @@ function showPopup(event) {
         }
     }
     xButton.addEventListener('click', (event)=>closePopup(event));
+    
 }
 
 window.onbeforeunload = () => {
@@ -146,27 +172,47 @@ function validation() {
     let isValid = true;
     let x = formData;
     let numberRegex = /\d/;
-    let specialCharacterRegex = /^\w*$/;
+    let specialCharacterRegex = /[^_\w]+$/;
+
     if (numberRegex.test(x["firstName"].value)) {
-        alert("First Name includes Number");
+        document.getElementById("firstName").classList.add("errorNumber");
         isValid = false;
-    }
-    if (!specialCharacterRegex.test(x["firstName"].value)) {
-        alert("First Name includes special character");
+    } else document.getElementById("firstName").classList.remove("errorNumber");
+
+    if (specialCharacterRegex.test(x["firstName"].value)) {
+        document.getElementById("firstName").classList.add("error");
         isValid = false;
-    }
+    } else document.getElementById("firstName").classList.remove("error");
+
+    if (x["firstName"].value == "") {
+        document.getElementById("firstName").classList.add("errorBlank");
+        isValid = false;
+    } else document.getElementById("firstName").classList.remove("errorBlank");
+
     if (numberRegex.test(x["lastName"].value)) {
-        alert("Last Name includes number");
+        document.getElementById("lastName").classList.add("errorNumber");
         isValid = false;
-    }
-    if (!specialCharacterRegex.test(x["lastName"].value)) {
-        alert("Last Name includes special character!");
+    } else document.getElementById("lastName").classList.remove("errorNumber");
+
+    if (specialCharacterRegex.test(x["lastName"].value)) {
+        document.getElementById("lastName").classList.add("error");
         isValid = false;
-    }
+    } else document.getElementById("lastName").classList.remove("error");
+
+    if (x["lastName"].value == "") {
+        document.getElementById("lastName").classList.add("errorBlank");
+        isValid = false;
+    } 
+    
     if (x["adress"].value.length > 36) {
-        alert("Adress is more");
+        document.getElementById("adress").classList.add("error")
         isValid = false;
-    }
+    } else document.getElementById("adress").classList.remove("error")
+
+    if (x["adress"].value.length == 0) {
+        document.getElementById("adress").classList.add("errorBlank")
+        isValid = false;
+    }  else document.getElementById("adress").classList.remove("errorBlank")
     return isValid;
 
 }
@@ -177,7 +223,7 @@ function handleSubmit(event) {
         event.preventDefault();
     } else {
         id++;
-        event.preventDefault();
+        //event.preventDefault();
         console.log(JSON.parse(localStorage.getItem("data")));
         
         formDataArray.push({
@@ -212,8 +258,6 @@ function handleSubmit(event) {
     }
 }
 
-initialiseRows();
-formData.addEventListener('submit', (e) => handleSubmit(e));
 
 /*
 const x = document.getElementById('firstName');

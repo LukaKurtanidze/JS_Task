@@ -1,14 +1,18 @@
+
 #popup {
     padding: 1em;
     position: fixed;
-    top: 50%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
+    transition: 150ms;
     z-index: 10;
-    border: 0.1rem solid black;
+    border: 0.05rem solid black;
     border-radius: 0.5rem;
     background-color: white;
     width: 40vw;
+    height: 25vh;
+    max-height: 40vh;
     max-width: 40vw;
 }
 #popup.active {
@@ -17,9 +21,12 @@
 
 .popup_header {
     display: flex;
+    align-items: center;
+    font-size: 1.5rem;
     justify-content: space-between;
     margin-bottom: 1rem;
 }
+
 
 
 #overlay {
@@ -37,9 +44,39 @@
     pointer-events: all;
 }
 
+.error {
+    border-color: red !important;
+}
+.errorNumber {
+    border-color: red !important;
+}
+.errorBlank {
+    border-color: red !important;   
+}
+.error_text {
+    color: red !important;
+}
+
+.delete_button {
+    color: crimson;
+}
+.delete_button:hover {
+    cursor: pointer;
+}
+.view_button {
+    color:dodgerblue;
+}
+.view_button:hover {
+    cursor: pointer;
+}
+
+.popup_close:hover {
+    cursor: pointer;
+}
+
 .container {
     max-width: 60vw !important;
 }
 #table_container.container {
-    max-width: 80vw !important;
+    max-width: 60vw !important;
 }
