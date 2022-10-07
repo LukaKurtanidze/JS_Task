@@ -95,7 +95,6 @@ function deleteRow(event) {
 }
 
 function closePopup() {
-    console.log("it is clicked")
     popup.classList.remove("active");
     overlay.classList.remove("active");
 } 
