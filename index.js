@@ -7,6 +7,7 @@ let popup = document.getElementById("popup");
 let overlay = document.getElementById("overlay");
 let xButton = document.getElementById("popup_close");
 
+
 initialiseRows();
 formData.addEventListener('submit', (e) => handleSubmit(e));
 
@@ -83,7 +84,6 @@ function deleteRow(event) {
     /* the delete button we click will have a value of the id of the item 
     (since in initializing and adding functions i set them that way), so with value we can find a member of 
     form data with the same idea and set local storage with new form data that has removed the item with that id
-
     */
     for (let i=0; i<formDataArray.length; i++) {
         if (formDataArray[i].id == event.target.value) {
@@ -108,24 +108,6 @@ function closePopup() {
 
 function showPopup(event) {
 
-    /*
-    const myModal = new bootstrap.Modal('#myModal', {
-        keyboard: false
-    })
-    const modalToggle = document.getElementById('toggleMyModal');
-    myModal.show(modalToggle)
-
-
-    let notes = document.getElementById("modal_note");
-
-    for (let i=0; i<formDataArray.length; i++) {
-        if (formDataArray[i].id == event.target.value) {
-            notes.innerHTML = formDataArray[i].notes || "empty note";
-        }
-    }
-    */
-
-
     let notes = document.getElementById("popup_note");    
     popup.classList.add("active");
     overlay.classList.add("active");
@@ -134,7 +116,8 @@ function showPopup(event) {
             notes.innerHTML = formDataArray[i].notes || "empty note";
         }
     }
-    xButton.addEventListener('click', (event)=>closePopup(event));
+    overlay.addEventListener('click', ()=> closePopup());
+    xButton.addEventListener('click', ()=>closePopup());
     
 }
 

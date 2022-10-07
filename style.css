@@ -27,6 +27,12 @@
     margin-bottom: 1rem;
 }
 
+.popup_close:hover {
+    cursor: pointer;
+}
+span {
+    color: red;
+}
 
 
 #overlay {
@@ -70,9 +76,6 @@
     cursor: pointer;
 }
 
-.popup_close:hover {
-    cursor: pointer;
-}
 
 .container {
     max-width: 60vw !important;
