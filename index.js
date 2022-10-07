@@ -1,5 +1,4 @@
 const formData = document.forms["myForm"];   //this is where input is saved
-//localStorage.clear();
 let formDataArray = JSON.parse(localStorage.getItem("data")) || [];   // if data is in local storage, save it in this array
 let id = formDataArray.length || 0;     // set id to the maximum elemen in data saved in local storage (if it exist otherwise 0)
 let table = document.getElementById("table");
@@ -43,7 +42,6 @@ function initialiseRows() {
     }
 }
 
-
 function addRow(id) {
     window.onload = () => {
         let row = table.insertRow(id);
@@ -79,7 +77,6 @@ function addRow(id) {
     }
 }
 
-
 function deleteRow(event) {
     /* the delete button we click will have a value of the id of the item 
     (since in initializing and adding functions i set them that way), so with value we can find a member of 
@@ -97,17 +94,13 @@ function deleteRow(event) {
     }
 }
 
-
 function closePopup() {
     console.log("it is clicked")
     popup.classList.remove("active");
     overlay.classList.remove("active");
-    //document.location.reload(); 
 } 
 
-
 function showPopup(event) {
-
     let notes = document.getElementById("popup_note");    
     popup.classList.add("active");
     overlay.classList.add("active");
@@ -118,7 +111,6 @@ function showPopup(event) {
     }
     overlay.addEventListener('click', ()=> closePopup());
     xButton.addEventListener('click', ()=>closePopup());
-    
 }
 
 window.onbeforeunload = () => {
@@ -147,9 +139,7 @@ window.onload = () => {
 
         let notes = localStorage.getItem("notes");
         if (notes !== null) document.forms["myForm"]["notes"].value = notes;
-
 }
-
 
 function validation() {
     let isValid = true;
@@ -197,7 +187,6 @@ function validation() {
         isValid = false;
     }  else document.getElementById("adress").classList.remove("errorBlank")
     return isValid;
-
 }
 
 function handleSubmit(event) {
@@ -206,9 +195,6 @@ function handleSubmit(event) {
         event.preventDefault();
     } else {
         id++;
-        //event.preventDefault();
-        console.log(JSON.parse(localStorage.getItem("data")));
-        
         formDataArray.push({
             id: id,
             firstName: x["firstName"].value,
@@ -218,7 +204,6 @@ function handleSubmit(event) {
             gender: x["gender"].value,
             notes: x["notes"].value
         })
-
         localStorage.removeItem("firstName");
         document.forms["myForm"]["firstName"].value = "";
         localStorage.removeItem("lastName");
@@ -231,17 +216,9 @@ function handleSubmit(event) {
         document.forms["myForm"]["gender"].value = "";
         localStorage.removeItem("notes");
         document.forms["myForm"]["notes"].value = "";
-        
-
 
         localStorage.setItem("data", JSON.stringify(formDataArray));
-        console.log(JSON.parse(localStorage.getItem("data")));
         addRow(id);
 
     }
 }
-
-
-/*
-const x = document.getElementById('firstName');
-console.log(x.value); */
