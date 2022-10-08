@@ -42,41 +42,6 @@ function initialiseRows() {
     }
 }
 
-function addRow(id) {
-    window.onload = () => {
-        let row = table.insertRow(id);
-
-        // create row cells
-        var cell1 = row.insertCell(0);
-        let cell2 = row.insertCell(1);
-        let cell3 = row.insertCell(2);
-        let cell4 = row.insertCell(3);
-        let cell5 = row.insertCell(4);
-        let cell6 = row.insertCell(5);
-        let cell7 = row.insertCell(6);
-        let cell8 = row.insertCell(7);
-
-        /* since after submitting input data is saved in local storage and therefore saved in formDataArray,
-            set content of the ceilings to the latest members of data of the local storage
-        */
-        cell1.innerHTML = formDataArray[id-1].id;
-        cell2.innerHTML = formDataArray[id-1].firstName;
-        cell3.innerHTML = formDataArray[id-1].lastName;
-        cell4.innerHTML = formDataArray[id-1].adress;
-        cell5.innerHTML = formDataArray[id-1].date;
-        cell6.innerHTML = formDataArray[id-1].gender;
-        cell7.value = formDataArray[id-1].id;
-        cell7.innerHTML = "VIEW";
-        cell7.classList.add("view_button");
-        cell8.value = formDataArray[id-1].id;
-        cell8.innerHTML = "DELETE";
-        cell8.classList.add("delete_button");
-        
-        cell7.addEventListener('click', (event)=>showPopup(event));
-        cell8.addEventListener('click', (event)=>deleteRow(event));
-    }
-}
-
 function deleteRow(event) {
     /* the delete button we click will have a value of the id of the item 
     (since in initializing and adding functions i set them that way), so with value we can find a member of 
@@ -217,7 +182,5 @@ function handleSubmit(event) {
         document.forms["myForm"]["notes"].value = "";
 
         localStorage.setItem("data", JSON.stringify(formDataArray));
-        addRow(id);
-
     }
 }
